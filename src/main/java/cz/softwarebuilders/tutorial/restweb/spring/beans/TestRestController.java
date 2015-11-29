@@ -1,10 +1,7 @@
 package cz.softwarebuilders.tutorial.restweb.spring.beans;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("greetings")
@@ -30,6 +27,11 @@ public class TestRestController {
                                   @RequestParam("prijmeni") String surname,
                                   @RequestParam("vek") String age) {
         return name + " " + surname + " " + age;
+    }
+
+    @RequestMapping(value = "/getPerson", method = RequestMethod.GET, produces = "application/json")
+    public Person getPerson(@RequestParam("name") String name) {
+        return new Person(name, "Doe", 33);
     }
 
     //Call it with ../greetings/hey
