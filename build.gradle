@@ -1,10 +1,23 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "fr.javatic.gradle:gradle-jboss-controller:1.5"
+    }
+}
+
 group 'RestWeb'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'war'
+apply plugin: 'fr.javatic.jboss-controller'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -19,4 +32,13 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
     providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
     testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task deployRestWeb(type: JBossURLDeployTask, dependsOn: 'war') {
+    host = 'localhost'
+    port = 9999
+
+    username = 'admin'
+    password = System.console().readPassword("\nJboss password: ")
+    url = new URI("${libsDir.toURI()}/${war.archiveName}").toURL()
 }
