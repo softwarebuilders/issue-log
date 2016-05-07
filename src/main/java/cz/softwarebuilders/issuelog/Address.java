@@ -1,4 +1,4 @@
-package cz.softwarebuilders.tutorial.restweb.spring.beans;
+package cz.softwarebuilders.issuelog;
 
 public class Address {
     private String city;

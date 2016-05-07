@@ -9,8 +9,8 @@ buildscript {
     }
 }
 
-group 'RestWeb'
-version '1.0-SNAPSHOT'
+group 'issue-log'
+version 'dev'
 
 apply plugin: 'java'
 apply plugin: 'war'
@@ -43,7 +43,7 @@ dependencies {
 task deployWarOnJboss(type: JBossURLDeployTask, dependsOn: 'war') {
     def env = System.getProperties()
     host = env['host']
-    port = env['port'] as Integer
+    port = env['port'] ? env['port'] as Integer : 9999
     username = env['usr']
     password = env['pwd']
     url = new URI("${libsDir.toURI()}/${war.archiveName}").toURL()

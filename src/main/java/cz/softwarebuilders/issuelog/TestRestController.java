@@ -1,4 +1,4 @@
-package cz.softwarebuilders.tutorial.restweb.spring.beans;
+package cz.softwarebuilders.issuelog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
