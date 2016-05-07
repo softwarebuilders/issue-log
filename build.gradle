@@ -34,11 +34,17 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-task deployRestWeb(type: JBossURLDeployTask, dependsOn: 'war') {
-    host = 'localhost'
-    port = 9999
-
-    username = 'admin'
-    password = System.console().readPassword("\nJboss password: ")
+/**
+ * deploys built *.war on jboss AS
+ * call this task
+ * gradle deployWarOnJboss -Dhost=<hostname> -Dport=<port> -Dusr=<username> -Dpwd=<password>
+ * e.g. gradle deployWarOnJboss -Dhost=localhost -Dport=9999 -Dusr=admin -Dpwd=admins_password
+ */
+task deployWarOnJboss(type: JBossURLDeployTask, dependsOn: 'war') {
+    def env = System.getProperties()
+    host = env['host']
+    port = env['port'] as Integer
+    username = env['usr']
+    password = env['pwd']
     url = new URI("${libsDir.toURI()}/${war.archiveName}").toURL()
 }
