@@ -1,0 +1,30 @@
+body {
+    margin: 0px;
+}
+
+.header-style {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    background: cornflowerblue;
+    text-align: center;
+    font-size: large;
+}
+
+article {
+    border-color: cornflowerblue;
+    position: relative;
+    top: 100px;
+    z-index: -1;
+}
+
+table {
+    margin: auto;
+    width: 70%;
+}
+
+table, tr, td {
+    border: 1px solid cornflowerblue;
+    border-collapse: collapse;
+}

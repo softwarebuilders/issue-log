@@ -3,6 +3,9 @@ package cz.softwarebuilders.issuelog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("greetings")
 public class TestRestController {
@@ -32,6 +35,15 @@ public class TestRestController {
     @RequestMapping(value = "/getPerson", method = RequestMethod.GET, produces = "application/json")
     public Person getPerson(@RequestParam("name") String name) {
         return new Person(name, "Doe", 33);
+    }
+
+    @RequestMapping(value = "/getPersons", method = RequestMethod.GET, produces = "application/json")
+    public List<Person> getPersons(@RequestParam("count") String count) {
+        List<Person> persons = new ArrayList<>();
+        for (int i = 1; i <= Integer.valueOf(count); i++) {
+            persons.add(new Person("John_" + i, "Doe_" + i, i));
+        }
+        return persons;
     }
 
     //Call it with ../greetings/hey
