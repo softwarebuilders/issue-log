@@ -6,16 +6,33 @@ body {
     position: fixed;
     left: 0%;
     top: 0%;
+    height: 100px;
     width: 100%;
     background: cornflowerblue;
     text-align: center;
     font-size: large;
 }
 
+.nav-style {
+    position: fixed;
+    left: 0%;
+    top: 100px;
+    height: 20px;
+    width: 100%;
+    background: deepskyblue;
+}
+
+.logout-button {
+    border: 0;
+    background: none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
 article {
     border-color: cornflowerblue;
     position: relative;
-    top: 100px;
+    top: 120px;
     z-index: -1;
 }
 

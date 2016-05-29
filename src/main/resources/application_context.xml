@@ -3,11 +3,14 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:security="http://www.springframework.org/schema/security"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
     <context:component-scan base-package="cz.softwarebuilders.issuelog"/>
     <mvc:annotation-driven/>
     <tx:annotation-driven/>
@@ -36,6 +39,22 @@
     </bean>
 
     <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
+
+    <security:http>
+        <security:intercept-url pattern="/**" access="hasRole('USER')"/>
+        <security:form-login/>
+        <security:http-basic/>
+        <security:logout delete-cookies="JSESSIONID" invalidate-session="true" logout-url="/logout"/>
+        <security:csrf disabled="true"/>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="jan" password="jan" authorities="ROLE_USER"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
 
     <beans profile="test">
         <bean id="hsqldbDataSource" class="org.hsqldb.jdbc.JDBCDataSource">

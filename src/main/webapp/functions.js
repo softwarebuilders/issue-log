@@ -1,33 +1,30 @@
 /**
  * Appends table row to result table
- * @param index index of processed person
- * @param person person to process
+ * @param index index of processed issue
+ * @param issue issue to process
  */
-function appendTableRow(index, person) {
+function appendTableRow(index, issue) {
     $("<tr>").append(
         $("<td>").text(index),
-        $("<td>").text(person.name),
-        $("<td>").text(person.surname),
-        $("<td>").text(person.age),
-        $("<td>").text(person.address.city),
-        $("<td>").text(person.address.street),
-        $("<td>").text(person.address.number)
+        $("<td>").text(issue.id),
+        $("<td>").text(issue.value)
     ).appendTo("#result-table");
 }
 
 /**
- * Processes persons list
- * @param persons list
+ * Processes issues list
+ * @param issues list
  */
-function processPersons(persons) {
-    $.each(persons, appendTableRow);
+function processIssues(issues) {
+    $.each(issues, appendTableRow);
 }
 
 /**
- * Loads persons using ajax
+ * Loads issues using ajax
  */
-function loadPersons() {
-    $.getJSON("api/greetings/getPersons?count=500").done(processPersons);
+function loadIssues() {
+    $.getJSON("api/issueLog/getAllIssues").done(processIssues);
 }
 
-$(loadPersons());
+$(loadIssues());
+

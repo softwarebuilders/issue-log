@@ -31,6 +31,8 @@ dependencies {
     compile 'org.springframework:spring-jdbc:4.2.3.RELEASE'
     compile 'org.springframework:spring-orm:4.2.3.RELEASE'
     compile 'org.springframework:spring-tx:4.2.3.RELEASE'
+    compile 'org.springframework.security:spring-security-web:4.1.0.RELEASE'
+    compile 'org.springframework.security:spring-security-config:4.1.0.RELEASE'
     testCompile 'org.springframework:spring-test:4.2.3.RELEASE'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '4.2.21.Final'
