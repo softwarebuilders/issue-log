@@ -1,5 +1,6 @@
 body {
     margin: 0px;
+    font-family: SansSerif, sans-serif;
 }
 
 .header-style {
@@ -11,6 +12,7 @@ body {
     background: cornflowerblue;
     text-align: center;
     font-size: large;
+    z-index: 1000;
 }
 
 .nav-style {
@@ -20,6 +22,7 @@ body {
     height: 20px;
     width: 100%;
     background: deepskyblue;
+    z-index: 1000;
 }
 
 .logout-button {
@@ -29,19 +32,44 @@ body {
     border-radius: 0px;
 }
 
+.nav-button {
+    float: left;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.nav-logout-form {
+    float: right;
+}
+
+.nav-button-selected {
+    background-color: crimson;
+}
+
 article {
     border-color: cornflowerblue;
     position: relative;
     top: 120px;
-    z-index: -1;
+    z-index: 1;
 }
 
 table {
-    margin: auto;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
     width: 70%;
 }
 
 table, tr, td {
     border: 1px solid cornflowerblue;
     border-collapse: collapse;
+}
+
+.table-row-enter {
+    background-color: coral;
+}
+
+.hidden {
+    visibility: hidden;
 }
