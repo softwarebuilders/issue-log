@@ -29,7 +29,7 @@ public class IssueDaoImplTest implements ApplicationContextAware {
     @Test
     public void save() {
         Issue issue = new Issue();
-        issue.setValue("xyz");
+        issue.setSubject("xyz");
         issueDao.save(issue);
         issueDao.flush();
         assertNotNull(issue.getId());

@@ -10,8 +10,13 @@ public class Issue implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
-    @Column(name = "VALUE")
-    private String value;
+    @Column(name = "SUBJECT")
+    private String subject;
+    @Column(name = "DESCRIPTION")
+    private String description;
+    @Column(name = "PRIORITY")
+    private int priority;
+
 
     public Long getId() {
         return id;
@@ -21,11 +26,27 @@ public class Issue implements Serializable {
         this.id = id;
     }
 
-    public String getValue() {
-        return value;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Priority getPriority() {
+        return Priority.fromCode(priority);
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority.getCode();
     }
 }

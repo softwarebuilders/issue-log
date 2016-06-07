@@ -6,7 +6,8 @@ const IDS = {
     NAV_NEW: "#nav-new",
     RESULT_TABLE: "#result-table",
     ALL_ISSUES_DIV: "#all-issues",
-    NEW_ISSUE_DIV: "#new-issue"
+    NEW_ISSUE_DIV: "#new-issue",
+    SUBMIT_NEW_ISSUE_BTN: "#submit-new-issue"
 };
 
 const CLASSES = {
@@ -29,7 +30,9 @@ function appendTableRow(issue, index, array) {
     return $("<tr>").append(
         $("<td>").text(index),
         $("<td>").text(issue.id),
-        $("<td>").text(issue.value)
+        $("<td>").text(issue.subject),
+        $("<td>").text(issue.description),
+        $("<td>").text(issue.priority)
     );
 }
 
@@ -126,6 +129,50 @@ function hookNavKeys() {
 
 }
 
+function hookNewIssue() {
+    $(IDS.SUBMIT_NEW_ISSUE_BTN).click(handleNewIssue);
+}
+
+function getPriorityCode(priority) {
+    switch (priority) {
+        case 'BLOCK':
+            return 1;
+        case 'HIGH':
+            return 2;
+        case 'MIDDLE':
+            return 3;
+        case 'LOW':
+            return 4;
+        case 'NONE':
+            return 5;
+        default:
+            return 3;
+    }
+}
+
+function handleNewIssue() {
+    var subject = $("#subject-new-issue").val();
+    var description = $("#description-new-issue").val();
+    var priority = $("#priority-new-issue").val();
+
+    if (!MOCK_ENABLED) {
+        $.ajax({
+            async: false,
+            dataType: "json",
+            url: "api/issueLog/createNewIssue",
+            method: "GET",
+            data: {subject: subject, description: description, priority: getPriorityCode(priority)},
+            success: function (issue) {
+                if (issue) {
+                    SESSION.issues.push(issue);
+                }
+            }
+        });
+    } else {
+        SESSION.issues.push({id: SESSION.issues.length + 1, value: subject});
+    }
+}
+
 function init() {
     loadIssues();
     processIssues(SESSION.issues);
@@ -135,3 +182,4 @@ function init() {
 $(init);
 $(hookTableMouseEventHandling);
 $(hookNavKeys);
+$(hookNewIssue);
