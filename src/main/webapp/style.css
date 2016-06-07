@@ -36,6 +36,11 @@ body {
     float: left;
     margin-left: 5px;
     margin-right: 5px;
+    cursor: default;
+}
+
+.nav-button-shown {
+    background-color: pink;
 }
 
 .nav-logout-form {
@@ -71,5 +76,5 @@ table, tr, td {
 }
 
 .hidden {
-    visibility: hidden;
+    display: none;
 }

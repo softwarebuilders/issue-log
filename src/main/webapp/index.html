@@ -17,7 +17,23 @@
     </div>
 </nav>
 <article id="main-article">
-    
+    <div id="all-issues" class="all-issues">
+
+    </div>
+    <div id="new-issue" class="new-issue hidden">
+        Subject:<br>
+        <input id="subject-new-issue" type="text"><br>
+        Description:<br>
+        <textarea id="description-new-issue">Describe your issue</textarea><br>
+        Priority:<br>
+        <select id="priority-new-issue">
+            <option value="BLOCK">BLOCK</option>
+            <option value="HIGH">HIGH</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="LOW">LOW</option>
+        </select>
+        <button id="submit-new-issue">Submit</button>
+    </div>
 </article>
 <footer></footer>
 </body>

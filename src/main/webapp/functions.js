@@ -4,12 +4,16 @@ const IDS = {
     MAIN_ARTICLE: "#main-article",
     NAV_ALL: "#nav-all",
     NAV_NEW: "#nav-new",
-    RESULT_TABLE: "#result-table"
+    RESULT_TABLE: "#result-table",
+    ALL_ISSUES_DIV: "#all-issues",
+    NEW_ISSUE_DIV: "#new-issue"
 };
 
 const CLASSES = {
+    NAV_BUTTON_MOUSE_OVER: "nav-button-shown",
     NAV_BUTTON_SELECTED: "nav-button-selected",
-    TABLE_ROW_ENTER: "table-row-enter"
+    TABLE_ROW_ENTER: "table-row-enter",
+    HIDDEN: "hidden"
 };
 
 const SESSION = {
@@ -38,7 +42,7 @@ function processIssues(issues) {
     $(table)
         .append($("<tbody>")
             .append(issues.map(appendTableRow)))
-        .appendTo(IDS.MAIN_ARTICLE);
+        .appendTo(IDS.ALL_ISSUES_DIV);
 }
 
 function generateIssues() {
@@ -87,18 +91,39 @@ function hookTableMouseEventHandling() {
     });
 }
 
+function hide(id) {
+    $(id).toggleClass(CLASSES.HIDDEN);
+}
+
+function show(id) {
+    $(id).removeClass(CLASSES.HIDDEN);
+}
+
 function hookNavKeys() {
     $(IDS.NAV_NEW).click(function () {
         selectNav(IDS.NAV_NEW);
-        $(IDS.MAIN_ARTICLE).empty();
-        $(IDS.MAIN_ARTICLE).append($("<h1>").text("ahoj"));
+        hide(IDS.ALL_ISSUES_DIV);
+        show(IDS.NEW_ISSUE_DIV);
     });
 
     $(IDS.NAV_ALL).click(function () {
         selectNav(IDS.NAV_ALL);
-        $(IDS.MAIN_ARTICLE).empty();
-        $(IDS.MAIN_ARTICLE).append(processIssues(SESSION.issues));
+        hide(IDS.NEW_ISSUE_DIV);
+        $(IDS.ALL_ISSUES_DIV).empty();
+        show(IDS.ALL_ISSUES_DIV);
+        $(IDS.ALL_ISSUES_DIV).append(processIssues(SESSION.issues));
     });
+
+    //hook mouse enter|leave behaviour
+    [IDS.NAV_NEW, IDS.NAV_ALL].forEach(function (id, index, array) {
+        $(id).mouseenter(function () {
+            $(this).toggleClass(CLASSES.NAV_BUTTON_MOUSE_OVER);
+        });
+        $(id).mouseleave(function () {
+            $(this).removeClass(CLASSES.NAV_BUTTON_MOUSE_OVER);
+        });
+    });
+
 }
 
 function init() {
