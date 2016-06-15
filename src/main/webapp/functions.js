@@ -169,7 +169,12 @@ function handleNewIssue() {
             }
         });
     } else {
-        SESSION.issues.push({id: SESSION.issues.length + 1, value: subject});
+        SESSION.issues.push({
+            id: SESSION.issues.length + 1,
+            subject: subject,
+            description: description,
+            priority: priority
+        });
     }
 }
 
