@@ -4,6 +4,7 @@ const IDS = {
     MAIN_ARTICLE: "#main-article",
     NAV_ALL: "#nav-all",
     NAV_NEW: "#nav-new",
+    NAV_LOGOUT: "#nav-logout",
     RESULT_TABLE: "#result-table",
     ALL_ISSUES_DIV: "#all-issues",
     NEW_ISSUE_DIV: "#new-issue",
@@ -118,7 +119,7 @@ function hookNavKeys() {
     });
 
     //hook mouse enter|leave behaviour
-    [IDS.NAV_NEW, IDS.NAV_ALL].forEach(function (id, index, array) {
+    [IDS.NAV_NEW, IDS.NAV_ALL, IDS.NAV_LOGOUT].forEach(function (id, index, array) {
         $(id).mouseenter(function () {
             $(this).toggleClass(CLASSES.NAV_BUTTON_MOUSE_OVER);
         });
@@ -154,6 +155,8 @@ function handleNewIssue() {
     var subject = $("#subject-new-issue").val();
     var description = $("#description-new-issue").val();
     var priority = $("#priority-new-issue").val();
+    var messageBody = $("#message-body-new-issue").val();
+    var stackTrace = $("#stack-trace-new-issue").val();
 
     if (!MOCK_ENABLED) {
         $.ajax({
@@ -161,7 +164,13 @@ function handleNewIssue() {
             dataType: "json",
             url: "api/issueLog/createNewIssue",
             method: "GET",
-            data: {subject: subject, description: description, priority: getPriorityCode(priority)},
+            data: {
+                subject: subject, 
+                description: description, 
+                priority: getPriorityCode(priority),
+                messageBody: messageBody,
+                stackTrace: stackTrace
+            },
             success: function (issue) {
                 if (issue) {
                     SESSION.issues.push(issue);

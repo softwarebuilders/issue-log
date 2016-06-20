@@ -16,7 +16,14 @@ public class Issue implements Serializable {
     private String description;
     @Column(name = "PRIORITY")
     private int priority;
-
+    @Column(name = "MESSAGE_BODY", columnDefinition = "CLOB")
+    @Lob
+    @Basic(fetch=FetchType.LAZY)
+    private String messageBody;
+    @Column(name = "STACK_TRACE", columnDefinition = "CLOB")
+    @Lob
+    @Basic(fetch=FetchType.LAZY)
+    private String stackTrace;
 
     public Long getId() {
         return id;
@@ -48,5 +55,21 @@ public class Issue implements Serializable {
 
     public void setPriority(Priority priority) {
         this.priority = priority.getCode();
+    }
+
+    public String getMessageBody() {
+        return messageBody;
+    }
+
+    public void setMessageBody(String messageBody) {
+        this.messageBody = messageBody;
+    }
+
+    public String getStackTrace() {
+        return stackTrace;
+    }
+
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = stackTrace;
     }
 }

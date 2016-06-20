@@ -36,7 +36,9 @@ public class IssueRestController {
     public Issue createNewIssue(
             @RequestParam("subject") String subject,
             @RequestParam("description") String description,
-            @RequestParam("priority") String priority) {
+            @RequestParam("priority") String priority,
+            @RequestParam("messageBody") String messageBody,
+            @RequestParam("stackTrace") String stackTrace) {
         Issue issue = new Issue();
         issue.setSubject(subject);
         issue.setDescription(description);

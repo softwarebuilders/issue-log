@@ -13,7 +13,7 @@
     <div id="nav-new" class="nav-button">NEW</div>
     <div id="nav-all" class="nav-button">ALL</div>
     <div class="nav-logout-form">
-        <form method="post" action="logout"><input type="submit" value="LOGOUT" class="logout-button"></form>
+        <form method="post" action="logout"><input id="nav-logout" type="submit" value="LOGOUT" class="logout-button"></form>
     </div>
 </nav>
 <article id="main-article">
@@ -31,7 +31,11 @@
             <option value="HIGH">HIGH</option>
             <option value="MEDIUM">MEDIUM</option>
             <option value="LOW">LOW</option>
-        </select>
+        </select><br>
+        Message body:<br>
+        <textarea id="message-body-new-issue">Copy/Paste message body here</textarea><br>
+        Stack trace:<br>
+        <textarea id="stack-trace-new-issue">Copy/Paste stacktrace here</textarea><br>
         <button id="submit-new-issue">Submit</button>
     </div>
 </article>
