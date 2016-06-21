@@ -8,6 +8,7 @@ const IDS = {
     RESULT_TABLE: "#result-table",
     ALL_ISSUES_DIV: "#all-issues",
     NEW_ISSUE_DIV: "#new-issue",
+    ISSUE_DETAIL_DIV: '#issue-detail',
     SUBMIT_NEW_ISSUE_BTN: "#submit-new-issue"
 };
 
@@ -19,7 +20,25 @@ const CLASSES = {
 };
 
 const SESSION = {
-    issues: []
+    issues: [],
+    priorities: [
+        {code: 1, value: 'BLOCK'},
+        {code: 2, value: 'HIGH'},
+        {code: 3, value: 'MEDIUM'},
+        {code: 4, value: 'LOW'}
+    ],
+    getPriorityByValue: function (value) {
+        var priority = this.priorities.find(function (priority) {
+            return priority.value === value;
+        });
+        return priority == null ? this.priorities[2] : priority;
+    },
+    getPriorityByCode: function (code) {
+        var priority = this.priorities.find(function (priority) {
+            return priority.code === code;
+        });
+        return priority == null ? this.priorities[2] : priority;
+    }
 };
 
 /**
@@ -28,7 +47,8 @@ const SESSION = {
  * @param issue issue to process
  */
 function appendTableRow(issue, index, array) {
-    return $("<tr>").append(
+    var rowWithId = "<tr id='"+issue.id+"'>";
+    return $(rowWithId).append(
         $("<td>").text(index),
         $("<td>").text(issue.id),
         $("<td>").text(issue.subject),
@@ -93,10 +113,27 @@ function hookTableMouseEventHandling() {
     $(IDS.MAIN_ARTICLE).on("mouseleave", resultTableRowSelector, function () {
         $(this).removeClass(CLASSES.TABLE_ROW_ENTER);
     });
+
+    $(IDS.MAIN_ARTICLE).on("click", resultTableRowSelector, function () {
+        hide(IDS.ALL_ISSUES_DIV);
+        var id = this.id;
+        var issue = SESSION.issues.find(function (issue) {
+            return issue.id === id;
+        });
+
+        $("#id-issue-detail").val(issue.id);
+        $("#subject-issue-detail").val(issue.subject);
+        $("#description-issue-detail").val(issue.description);
+        $("#priority-issue-detail").val(SESSION.getPriorityByCode(issue.priority).value),
+        $("#message-body-issue-detail").val(issue.messageBody);
+        $("#stack-trace-issue-detail").val(issue.stackTrace);
+
+        show(IDS.ISSUE_DETAIL_DIV);
+    });
 }
 
 function hide(id) {
-    $(id).toggleClass(CLASSES.HIDDEN);
+    $(id).toggleClass(CLASSES.HIDDEN, true);
 }
 
 function show(id) {
@@ -107,12 +144,14 @@ function hookNavKeys() {
     $(IDS.NAV_NEW).click(function () {
         selectNav(IDS.NAV_NEW);
         hide(IDS.ALL_ISSUES_DIV);
+        hide(IDS.ISSUE_DETAIL_DIV);
         show(IDS.NEW_ISSUE_DIV);
     });
 
     $(IDS.NAV_ALL).click(function () {
         selectNav(IDS.NAV_ALL);
         hide(IDS.NEW_ISSUE_DIV);
+        hide(IDS.ISSUE_DETAIL_DIV);
         $(IDS.ALL_ISSUES_DIV).empty();
         show(IDS.ALL_ISSUES_DIV);
         $(IDS.ALL_ISSUES_DIV).append(processIssues(SESSION.issues));
@@ -134,23 +173,6 @@ function hookNewIssue() {
     $(IDS.SUBMIT_NEW_ISSUE_BTN).click(handleNewIssue);
 }
 
-function getPriorityCode(priority) {
-    switch (priority) {
-        case 'BLOCK':
-            return 1;
-        case 'HIGH':
-            return 2;
-        case 'MIDDLE':
-            return 3;
-        case 'LOW':
-            return 4;
-        case 'NONE':
-            return 5;
-        default:
-            return 3;
-    }
-}
-
 function handleNewIssue() {
     var subject = $("#subject-new-issue").val();
     var description = $("#description-new-issue").val();
@@ -167,7 +189,7 @@ function handleNewIssue() {
             data: {
                 subject: subject, 
                 description: description, 
-                priority: getPriorityCode(priority),
+                priority: SESSION.getPriorityByValue(priority).code,
                 messageBody: messageBody,
                 stackTrace: stackTrace
             },
@@ -179,10 +201,12 @@ function handleNewIssue() {
         });
     } else {
         SESSION.issues.push({
-            id: SESSION.issues.length + 1,
+            id: String(SESSION.issues.length + 1),
             subject: subject,
             description: description,
-            priority: priority
+            priority: SESSION.getPriorityByValue(priority).code,
+            messageBody: messageBody,
+            stackTrace: stackTrace
         });
     }
 }
